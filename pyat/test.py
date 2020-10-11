@@ -7,13 +7,13 @@ def test():
 	device = Device()
 	print("Try to communicate with the device...")
 
-	ok = port.expect_command_response(b'AT', b'OK')
+	ok = port.command_check(b'AT', b'OK')
 	if  ok:
 		print("Success!")
 	else:
 		print("No response received, try to start the device...")
 		device.start()
-		ok = port.expect_command_response(b'AT', b'OK')
+		ok = port.command_check(b'AT', b'OK')
 		if not ok:
 			print("Failed!")
 		else:
@@ -21,10 +21,10 @@ def test():
 			return False
 
 	print("Test disable echo...")
-	if not port.expect_command_response(b'ATE0', b'OK'):
+	if not port.command_check(b'ATE0', b'OK'):
 		print("Failed!")
 		return False
-	if not port.expect_command_response(b'AT', b'OK', accept_echo = False):
+	if not port.command_check(b'AT', b'OK', accept_echo = False):
 		print("Echo not disabled, failed!")
 		return False
 	print("Success!")
